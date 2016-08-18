@@ -1,2 +1,2 @@
-# DeviceManager.Frontend
-A frontend for the DeviceManager.
+# DeviceManager
+A menager for devices.
