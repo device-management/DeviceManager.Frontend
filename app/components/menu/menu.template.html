@@ -15,21 +15,21 @@
                     </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li *ngFor="let location of locationsObservable | async">
-                        <a href="/location/{{location.id}}"><i class="fa fa-circle-o"></i>{{location.name}}</a>
+                    <li *ngFor="let location of locations$ | async">
+                        <a [routerLink]="['/location', location.id]"><i class="fa fa-circle-o"></i>{{location.name}}</a>
                     </li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>Devices</span>
+                    <i class="fa fa-mobile"></i> <span>Devices</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <li *ngFor="let device of devicesObservable | async">
-                        <a href="/device/{{device.id}}"><i class="fa fa-circle-o"></i>{{device.name}}</a>
+                    <li *ngFor="let device of devices$ | async">
+                        <a [routerLink]="['/device', device.id]"><i class="fa fa-circle-o"></i>{{device.name}}</a>
                     </li>
                 </ul>
             </li>

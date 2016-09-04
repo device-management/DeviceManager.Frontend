@@ -3,7 +3,7 @@ import { ROUTER_DIRECTIVES } from '@angular/router';
 import { MenuComponent } from '../menu/menu.component';
 
 @Component({
-    selector: 'ef-app',
+    selector: 'dm-app',
     templateUrl: 'app/components/app/app.template.html',
     directives: [...ROUTER_DIRECTIVES, MenuComponent]
 })

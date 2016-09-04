@@ -1,15 +1,16 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Observable } from 'rxjs/Observable';
 import { Device } from '../models/device';
+import { Location } from '../models/location';
 
 @Injectable()
 export class DeviceRepository {
 
-    private devicesSource = new BehaviorSubject<Array<Device>>([]);
-    devicesObservable$ = this.devicesSource.asObservable();
+    private _devices$ = new BehaviorSubject<Device[]>([]);
 
     constructor(){
-        this.devicesSource.next(
+        this._devices$.next(
             [{
                 id: 1,
                 name: "Lamp",
@@ -18,7 +19,9 @@ export class DeviceRepository {
                     name: "Living Room"
                 },
                 type: "Light",
-                configuration: {}
+                configuration: {
+                    enabled: true
+                }
             },
             {
                 id: 2,
@@ -28,7 +31,49 @@ export class DeviceRepository {
                     name: "Bathroom"
                 },
                 type: "Thermometer",
-                configuration: {}
+                configuration: {
+                    enabled: false
+                }
+            },
+            {
+                id: 3,
+                name: "Thermometer",
+                location: {
+                    id: 1,
+                    name: "Living Room"
+                },
+                type: "Thermometer",
+                configuration: {
+                    enabled: false
+                }
+            },
+            {
+                id: 4,
+                name: "Light",
+                location: {
+                    id: 1,
+                    name: "Living Room"
+                },
+                type: "Light",
+                configuration: {
+                    enabled: false
+                }
             }]);
+    }
+
+    devices$() : Observable<Device[]> {
+        return this._devices$.asObservable();
+    }
+
+    device$(deviceId : number) : Observable<Device> {
+        return this._devices$.map(devices => devices.filter(device => device.id == deviceId)[0]);
+    }
+
+    locationDevices$(locationId : number) : Observable<Device[]>{
+        return this._devices$.map(devices => devices.filter(device => device.location.id == locationId));
+    }
+
+    locations$() : Observable<Location[]>{
+        return this._devices$.map(devices => devices.map(device => device.location));
     }
 }

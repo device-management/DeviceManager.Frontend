@@ -6,16 +6,16 @@ import { Device } from '../../models/device';
 import { Location } from '../../models/location';
 
 @Component({
-    selector: 'ef-menu',
+    selector: 'dm-menu',
     templateUrl: 'app/components/menu/menu.template.html',
     providers: [DeviceRepository]
 })
 export class MenuComponent { 
 
-    devicesObservable : Observable<Device[]>;
-    locationsObservable : Observable<Location[]>;
+    devices$ : Observable<Device[]>;
+    locations$ : Observable<Location[]>;
     constructor(private deviceRepository : DeviceRepository){
-        this.devicesObservable = deviceRepository.devicesObservable$;
-        this.locationsObservable = deviceRepository.devicesObservable$.map(devices => devices.map(device => device.location));
+        this.devices$ = deviceRepository.devices$();
+        this.locations$ = deviceRepository.locations$();
     }
 }
