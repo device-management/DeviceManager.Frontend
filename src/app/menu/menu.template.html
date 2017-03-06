@@ -5,19 +5,35 @@
     <section class="sidebar">
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu">
-            <li class="header">GENERAL</li>
+            <li class="header">MAIN</li>
             <!-- Optionally, you can add icons to the links -->
-            <li *ngFor="let area of areas" class="treeview">
+            <li class="treeview">
                 <a href="#">
-                    <i class="fa fa-home"></i> <span>{{area.name}}</span>
+                    <i class="fa fa-home"></i> 
+                    <span>Devices</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
                 </a>
                 <ul class="treeview-menu" style="display: none;">
-                    <!--<li *ngFor="let location of area.locations">
-                        <a [routerLink]="['/location', location.id]"><i class="fa {{location.icon}}"></i>{{location.name}}</a>
-                    </li>-->
+                    <li>
+                        <a [routerLink]="['/devices']">
+                            <i class="fa fa-circle-o"></i>
+                            All
+                        </a>
+                        <a [routerLink]="['/devices', 'temperature']">
+                            <i class="fa fa-circle-o"></i>
+                            Temperature
+                        </a>
+                        <a [routerLink]="['/devices', 'brightness']">
+                            <i class="fa fa-circle-o"></i>
+                            Brightness
+                        </a>
+                        <a [routerLink]="['/devices', 'engine']">
+                            <i class="fa fa-circle-o"></i>
+                            Engine
+                        </a>
+                    </li>
                 </ul>
             </li>
         </ul>

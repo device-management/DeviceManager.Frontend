@@ -1,18 +1,41 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import { FilterResult } from './filter-result';
-import { FilterDescriptor } from './filter-descriptor';
-import { DeviceRepositorySettings } from './device-repository-settings';
+import { DeviceDescriptor } from '../device/models';
 
+export class DeviceRepositorySettings {
+    uri:string;
+}
 
+export class FilterDescriptor {
+    filters: Array<FilterItem>;
+    logic?: FilteringLogic;
+    limit?: number;
+    offset?: number;
+}
+
+export class FilterItem {
+    key: string;
+    value: string;
+    exact: boolean;
+}
+
+export class FilterResult {
+    devices: Array<DeviceDescriptor>;
+    total: number;
+}
+ 
+export enum FilteringLogic {
+    All,
+    Any
+}
 
 export interface IDeviceRepository {
   filter(filter: FilterDescriptor): Observable<FilterResult>;
 }
 
 @Injectable()
-export class DeviceRepositoryService implements IDeviceRepository {
+export class DeviceRepository implements IDeviceRepository {
   private readonly devicesUrl = '/api/devices/find';
   private readonly requestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 

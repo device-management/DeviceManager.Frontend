@@ -1,51 +1,18 @@
-import { LifecycleState } from './lifecycle-state';
 import { Subject, Observable } from 'rxjs';
 
 export interface ILifecycle {
-    state() : LifecycleState;
-    startingObservable() : Observable<any>;
-    stoppingObservable() : Observable<any>;
-    errorObservable() : Observable<any>;
-    start();
-    stop();
+    state : LifecycleState;
+    start() : Observable<any>;
+    stop() : Observable<any>;
 }
 
 export abstract class LifecycleSupport implements ILifecycle {
-    
-    private readonly _state : LifecycleState = LifecycleState.Stopped;
-    protected readonly startingSubject = new Subject();
-    protected readonly stoppingSubject = new Subject();
-    protected readonly errorSubject = new Subject();
 
-    get state() : LifecycleState {
-        return this._state;
-    }
-
-    get startingObservable() : Observable<any> {
-        return this.startingSubject;
-    }
-
-    get stoppingObservable() : Observable<any> {
-        return this.stoppingObservable;
-    }
-    
-    get errorObservable() : Observable<any> {
-        return this.errorObservable;
-    }
-
-    start() {
+    state : LifecycleState = LifecycleState.Stopped;
+    start() : Observable<any> {
         if(this.state == LifecycleState.Started || this.state == LifecycleState.Starting){
             return;
         }
-
-    }
-    stop() {
-
-    }
-
-    state : LifecycleState;
-    start() : Observable<any> {
-
 
         this.state = LifecycleState.Starting;
         let startObserver =  this.doStart();
@@ -72,4 +39,11 @@ export abstract class LifecycleSupport implements ILifecycle {
 
     protected abstract doStart() : Observable<any>;
     protected abstract doStop() : Observable<any>;
+}
+
+export enum LifecycleState {
+    Starting,
+    Started,
+    Stopping,
+    Stopped
 }

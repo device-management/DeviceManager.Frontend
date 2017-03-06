@@ -1,0 +1,33 @@
+<div class="box box-success">
+  <div class="box-header with-border">
+    <i class="fa fa-lightbulb-o"></i>
+    <h3 class="box-title">{{device.properties.name}}</h3>
+    <dm-status [size]="10" [status]="device.properties.isOnline" class="pull-right" > </dm-status>
+  </div>
+  <div class="box-body">
+    <div class="tab-content">
+      <div id="{{device.deviceId}}-main" class="tab-pane fade in active text-center">
+        <i class="fa fa-lightbulb-o fa-5x"></i>
+        <h3>LIGHTNESS</h3>
+        <dm-toggle (toggle)="toggleLight($event)" [status]="device.properties.isActive"> </dm-toggle>
+      </div>
+      <div id="{{device.deviceId}}-info" class="tab-pane fade in">
+        <table class="table table-bordered">
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+          <tr *ngFor="let entry of device | deviceProperties">
+            <td>{{entry.key}}</td>
+            <td>{{entry.value}}</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <hr/>
+    <ul  class="nav text-center">
+      <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
+      <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
+    </ul>
+  </div>
+</div>

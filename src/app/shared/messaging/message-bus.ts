@@ -1,98 +1,108 @@
-
-import { ChannelEvent } from './channel-event';
-import { MessageBusSettings } from './message-bus-settings';
-import { Subscription, Subject, Observable } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { LifecycleSupport } from '../lifecycle/lifecycle';
+import { MessageBusSettings, MESSAGE_BUS_SETTINGS } from './message-bus-settings';
 
 export interface IMessageBus {
-    publish(event: ChannelEvent);
+    publish(event: ChannelEvent): Observable<any>;
     subscribe(channel: string): Observable<ChannelEvent>;
     unsubscribe(channel: string): Observable<any>;
 }
 
+@Injectable()
 export class MessageBus extends LifecycleSupport implements IMessageBus {
 
+    private readonly startingSubject: Subject<any> = new ReplaySubject(1);
     private readonly hubConnection: any;
     private readonly hubProxy: any;
     private readonly channels = new Map<string, Subject<ChannelEvent>>();
+    private readonly signalR: SignalR = new SignalR();
+    private readonly settings: MessageBusSettings = MESSAGE_BUS_SETTINGS;
 
-    constructor(private settings: MessageBusSettings, private signalR: SignalR) {
+    constructor() {
         super();
         if (this.signalR.entrypoint === undefined || this.signalR.entrypoint.hubConnection === undefined) {
             throw new Error("The SignalR entrypoint or the .hubConnection() function are not defined. Please check the SignalR scripts have been loaded properly.");
         }
 
         this.hubConnection = this.signalR.entrypoint.hubConnection();
-        this.hubConnection.url = settings.url;
-        this.hubProxy = this.hubConnection.createHubProxy(settings.hubName);
-
-        this.hubProxy.on("EventArrived", (channel: string, event: ChannelEvent) => {
-            let channelSub = this.channels.get(channel);
+        this.hubConnection.url = this.settings.url;
+        this.hubConnection.logging = true;
+        this.hubConnection.error(error => console.log(error));
+        this.hubConnection.stateChanged(state => console.log(state));
+        this.hubProxy = this.hubConnection.createHubProxy(this.settings.hubName);
+        this.hubProxy.on("EventArrived", (channelEvent: ChannelEvent) => {
+            let channelSub = this.channels.get(channelEvent.channelName);
             if (channelSub) {
-                channelSub.next(event);
+                channelSub.next(channelEvent);
             }
         });
     }
 
-    publish(event: ChannelEvent) {
-        this.hubProxy.invoke("Publish", event);
+    publish(event: ChannelEvent): Observable<any> {
+        let publishSub = new Subject();
+        this.startingSubject.subscribe(
+            () => {
+                this.hubProxy.invoke("publish", event);
+                publishSub.complete();
+            },
+            error => publishSub.error(error));
+        return publishSub;
     }
 
     subscribe(channel: string): Observable<ChannelEvent> {
         let channelSub = this.channels.get(channel);
-        if(channelSub){
+        if (channelSub) {
             return channelSub;
         }
 
         channelSub = new Subject();
         this.channels.set(channel, channelSub);
-        this.hubProxy.invoke("Subscribe", channel)
-                .done(() => {
-                    console.log(`Successfully subscribed to ${channel} channel`);
-                })
-                .fail((error: any) => {
-                    channelSub.error(error);
-                    channelSub.complete();
-                    this.channels.delete(channel);
-                });
+        this.startingSubject.subscribe(
+            () => this.hubProxy.invoke("subscribe", channel)
+                .done(() => console.log(`Successfully subscribed to ${channel} channel`))
+                .fail((error: any) => channelSub.error(error)),
+            error => channelSub.error(error));
+
         return channelSub;
     }
 
-    unsubscribe(channel: string) : Observable<any> {
+    unsubscribe(channel: string): Observable<any> {
         let channelSub = this.channels.get(channel);
-        if(channelSub){
-            this.hubProxy.invoke("Unsubscribe", channel).done(() => {
-                    console.log(`Successfully unsubscribed ${channel} channel`);
-                    channelSub.complete();
-                    this.channels.delete(channel);
-                })
-                .fail((error: any) => {
-                    channelSub.error(error);
-                });
-                return channelSub;
+        if (channelSub) {
+            this.startingSubject.subscribe(
+                () => this.hubProxy.invoke("unsubscribe", channel)
+                    .done(() => {
+                        console.log(`Successfully unsubscribed ${channel} channel`);
+                        channelSub.complete();
+                        this.channels.delete(channel);
+                    })
+                    .fail((error: any) => {
+                        channelSub.error(error);
+                    }),
+                error => channelSub.error(error));
+            return channelSub;
         }
         return Observable.throw(`The channel ${channel} not found.`);
     }
 
-    protected doStart() : Observable<any> {
-        let subject = new Subject();
+    protected doStart(): Observable<any> {
         this.hubConnection.start()
-            .done(() => {
-                subject.next();
-                subject.complete();
-            })
-            .fail((error: any) => {
-                subject.error(error);
-                subject.complete();
-            });
-        
-        return subject;
+            .done(() => this.startingSubject.next())
+            .fail(error => this.startingSubject.error(error));
+        return this.startingSubject;
     }
 
-    protected doStop() : Observable<any> {
+    protected doStop(): Observable<any> {
         this.hubConnection.stop();
-        return Observable.empty();;
+        return Observable.empty();
     }
+}
+
+export class ChannelEvent {
+    channelName: string;
+    eventName: string;
+    data: any;
 }
 
 class SignalR {

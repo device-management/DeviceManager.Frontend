@@ -15,6 +15,22 @@
           <script src="/layout/lib/html5shiv/dist/html5shiv.min.js"></script>
           <script src="/layout/lib/respond/dest/respond.min.js"></script>
           <![endif]-->
+    <style>
+      #loading-area {
+          width: 60px;
+          height: 60px;
+          position: absolute;
+          top: 0;
+          left: 0;
+          bottom: 60px;
+          right: 0;
+          margin: auto;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          user-select: none;
+      }
+    </style>
 </head>
 <!--
    BODY TAG OPTIONS:
@@ -37,14 +53,19 @@
    |---------------------------------------------------------|
    -->
 
-<body class="hold-transition skin-blue sidebar-mini">
-  <dm-root>Loading...</dm-root>
+<body class="hold-transition skin-blue sidebar-mini" style="background-color: #337ab7;">
+  <dm-root>
+    <div id="loading-area" class="sk-double-bounce">
+        <div class="sk-child sk-double-bounce1"></div>
+        <div class="sk-child sk-double-bounce2"></div>
+      </div>
+  </dm-root>
 </body>
 
 <!-- AdminLTE Options -->
 <script>
   var AdminLTEOptions = {
-    animationSpeed: 300,
+    animationSpeed: 300
   };
 </script>
 

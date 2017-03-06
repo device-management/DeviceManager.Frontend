@@ -1,0 +1,18 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        Devices
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div *ngFor="let row of grid" class="row">
+        <div *ngFor="let block of row.deviceBlocks" [ngSwitch]="block.device.properties.type" class="col-md-{{block.columnWidth}}">
+            <dm-lighting [device]="block.device" *ngSwitchCase="'lighting'"> </dm-lighting>
+            <dm-sensor [device]="block.device" [measurementUnit]="'°C'" *ngSwitchCase="'temperature'"> </dm-sensor>
+            <dm-sensor [device]="block.device" [measurementUnit]="'%'" *ngSwitchCase="'humidity'"> </dm-sensor>
+        </div>
+    </div>
+</section>
+<!-- /.content -->

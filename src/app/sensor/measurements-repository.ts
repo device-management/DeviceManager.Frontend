@@ -1,38 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
-import { QueryResult } from './query-result';
-import { QueryDescriptor } from './query-descriptor';
-import { MeasurementsRepositorySettings } from './measurements-repository-settings';
+
+export class MeasurementsRepositorySettings {
+    uri: string;
+}
+
+export class Point {
+    value : number;
+    timestamp? : Date;
+}
+
+export class QueryDescriptor {
+    deviceId : string;
+    dateFrom? : Date;
+    dateTo? : Date;
+    order?: OrderType;
+    limit?: number;
+}
+
+export enum OrderType {
+    Ascending,
+    Descending
+}
+
+export class QueryResult {
+    name : string;
+    points : Array<Point>;
+}
 
 export interface IMeasurementsRepository {
-    getMeasurements(query: QueryDescriptor): Observable<QueryResult>;
+    getMeasurements(queries: Array<QueryDescriptor>): Observable<Array<QueryResult>>;
 }
 
 @Injectable()
 export class MeasurementsRepository implements IMeasurementsRepository {
-    private readonly devicesUrl = '/api/devices/find';
+    private readonly measurementsUrl = '/api/measurements/query';
+    private readonly requestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
     constructor(private settings: MeasurementsRepositorySettings, private http: Http) { }
 
-    getMeasurements(query: QueryDescriptor): Observable<QueryResult> {
-        let uri = `${this.settings.uri}/api/${query.deviceId}/measurements${this.buildQuery(query)}`;
-        return this.http.get(uri)
+    getMeasurements(queries: Array<QueryDescriptor>): Observable<Array<QueryResult>> {
+        
+        return this.http.post(this.settings.uri + this.measurementsUrl, queries, this.requestOptions)
             .map(this.extractData)
             .catch(this.handleError);
-    }
-
-    private buildQuery(query : QueryDescriptor) : string {
-        let uriQueries: Array<string> = new Array();
-        if(query.dateTo){
-            uriQueries.push(`dateTo=${query.dateTo.toISOString()}`);
-        }
-
-        if(query.dateFrom){
-            uriQueries.push(`dateFrom=${query.dateFrom.toISOString()}`);
-        }
-
-        return uriQueries.length > 0 ? `?${uriQueries.join("&")}` : "";
     }
 
     private extractData(res: Response) {

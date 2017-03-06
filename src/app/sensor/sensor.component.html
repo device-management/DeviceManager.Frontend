@@ -1,0 +1,53 @@
+<div class="box box-success">
+    <div class="box-header with-border">
+        <i class="fa fa-lightbulb-o"></i>
+        <h3 class="box-title">{{device.properties.name}}</h3>
+        <dm-status [size]="10" [status]="device.properties.isOnline" class="pull-right"> </dm-status>
+    </div>
+    <div class="box-body">
+        <div class="tab-content">
+            <div id="{{device.deviceId}}-main" class="tab-pane fade in active text-center">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="form-group pull-left">
+                            <label>Current:</label>
+                            <span>{{lastMeasurement?.value.toFixed(1)}}{{measurementUnit}}</span>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="form-group pull-right">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input type="text" class="form-control" dateRange (select)="dateRangeSelected($event)" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <canvas lineChart [points]="points" [xUnit]="measurementUnit"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div id="{{device.deviceId}}-info" class="tab-pane fade in">
+                <table class="table table-bordered">
+                    <tr>
+                        <th>Key</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr *ngFor="let entry of device | deviceProperties">
+                        <td>{{entry.key}}</td>
+                        <td>{{entry.value}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <hr/>
+        <ul class="nav text-center">
+            <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
+            <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
+        </ul>
+    </div>
+</div>
