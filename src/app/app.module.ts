@@ -21,10 +21,22 @@ import { DateRangeDirective } from './sensor/date-range.directive';
 import { SensorComponent } from './sensor/sensor.component';
 import { LineChartDirective } from './sensor/line-chart.directive';
 
-let appRoute = RouterModule.forRoot([
+const appRoute = RouterModule.forRoot([
   { path: 'devices/:type', component: DeviceListComponent },
   { path: 'devices', component: DeviceListComponent }
 ]);
+
+export function deviceRepositoryFactory(){
+  return new DeviceRepositoryMockup();
+}
+
+export function measurementsRepositoryFactory(){
+  return new MeasurementsRepositoryMockup();
+}
+
+export function messageBusFactory(){
+  return new MessageBusMockup();
+}
 
 @NgModule({
   declarations: [
@@ -49,10 +61,10 @@ let appRoute = RouterModule.forRoot([
     appRoute
   ],
   providers: [
-    { provide: MessageBus, useValue: new MessageBusMockup() },
     { provide: LifecycleSupport, useExisting: MessageBus, multi: true },
-    { provide: DeviceRepository, useValue: new DeviceRepositoryMockup() },
-    { provide: MeasurementsRepository, useValue: new MeasurementsRepositoryMockup() }
+    { provide: DeviceRepository, useFactory: deviceRepositoryFactory },
+    { provide: MeasurementsRepository, useFactory: measurementsRepositoryFactory },
+    { provide: MessageBus, useFactory: messageBusFactory }
   ],
   bootstrap: [AppComponent]
 })
