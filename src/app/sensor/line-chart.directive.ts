@@ -88,12 +88,12 @@ const defaultConfig = function (xUnit: string) {
                             'millisecond': 'HH:mm:ss',
                             'second': 'HH:mm:ss',
                             'minute': 'HH:mm',
-                            'hour': 'HH:mm',
-                            'day': 'HH:mm',
-                            'week': 'MM.DD',
-                            'month': 'MM.DD',
-                            'quarter': 'MM.DD',
-                            'year': 'YYYY.MM',
+                            'hour': 'ddd, HH:mm',
+                            'day': 'DD MMM',
+                            'week': 'DD MMM',
+                            'month': 'DD MMM',
+                            'quarter': 'DD MMM',
+                            'year': 'MMM YYYY',
                         }
                     }
                 }],
@@ -104,7 +104,7 @@ const defaultConfig = function (xUnit: string) {
                         return tooltipItem.yLabel.toFixed(1) + xUnit;
                     }
                 }
-            },
+            }
         }
     };
 }

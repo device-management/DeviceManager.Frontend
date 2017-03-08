@@ -90,7 +90,7 @@ interface DateGenerator {
 
 class DateRanges {
     public static readonly Today: string = "Today";
-    public static readonly Yesterday: string = "Yesterday";
+    public static readonly FromYesterday: string = "From Yesterday";
     public static readonly Last7Days: string = "Last 7 Days";
     public static readonly Last30Days: string = "Last 30 Days";
     public static readonly ThisMonth: string = "This Month";
@@ -103,10 +103,10 @@ DateRangeGenerators.set(DateRanges.Today, new DateRange(
     () => moment().endOf('day').toDate(),
     DateRanges.Today));
 
-DateRangeGenerators.set(DateRanges.Yesterday, new DateRange(
+DateRangeGenerators.set(DateRanges.FromYesterday, new DateRange(
     () => moment().subtract(1, 'days').startOf('day').toDate(),
-    () => moment().subtract(1, 'days').endOf('day').toDate(),
-    DateRanges.Yesterday));
+    () => moment().endOf('day').toDate(),
+    DateRanges.FromYesterday));
 
 DateRangeGenerators.set(DateRanges.Last7Days, new DateRange(
     () => moment().subtract(6, 'days').startOf('day').toDate(),
