@@ -7,25 +7,22 @@
     <div class="box-body">
         <div class="tab-content">
             <div id="{{device.deviceId}}-main" class="tab-pane fade in active text-center">
-                <div class="row vertical-align bottom-buffer">
-                    <div class="col-xs-6">
-                        <div class="pull-left">
+                <div class="row bottom-buffer">
+                    <div class="col-md-12">
+                        <div class="text-center">
                             <label>Current:</label>
-                            <span>{{lastMeasurement?.value.toFixed(1)}}{{measurementUnit}}</span>
+                            <span>{{currentValue}}%</span>
                         </div>
                     </div>
-                    <div class="col-xs-6">
-                        <div class="input-group">
-                            <div class="input-group-addon">
-                                <i class="fa fa-calendar"></i>
-                            </div>
-                            <input type="text" class="form-control" dateRange (select)="dateRangeSelected($event)" />
-                        </div>
+                </div>
+                <div class="row bottom-buffer">
+                    <div class="col-md-12">
+                        <input knob [value]="newValue" (changed)="valueChanged($event)">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <canvas lineChart [points]="points" [xUnit]="measurementUnit"></canvas>
+                        <button class="btn btn-success" (click)="applyValue()" [ngClass]="currentValue === newValue ? 'disabled' : 'active'" type="button">Apply</button>
                     </div>
                 </div>
             </div>
@@ -42,10 +39,10 @@
                 </table>
             </div>
         </div>
+        <hr/>
+        <ul class="nav text-center">
+            <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
+            <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
+        </ul>
     </div>
-    <hr/>
-    <ul class="nav text-center">
-        <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
-        <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
-    </ul>
 </div>

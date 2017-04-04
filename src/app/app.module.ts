@@ -20,6 +20,8 @@ import { DevicePropertiesPipe } from './device/device-properties.pipe';
 import { DateRangeDirective } from './sensor/date-range.directive';
 import { SensorComponent } from './sensor/sensor.component';
 import { LineChartDirective } from './sensor/line-chart.directive';
+import { MotorComponent } from './motor/motor.component';
+import { KnobDirective } from './motor/knob.directive';
 
 const appRoute = RouterModule.forRoot([
   { path: 'devices/:type', component: DeviceListComponent },
@@ -49,7 +51,9 @@ export function messageBusFactory(){
     ToggleSwitchComponent,
     DateRangeDirective,
     SensorComponent,
-    LineChartDirective
+    LineChartDirective,
+    KnobDirective,
+    MotorComponent
   ],
   exports: [
 

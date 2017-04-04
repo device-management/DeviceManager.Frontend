@@ -29,8 +29,8 @@ export class DeviceRepositoryMockup implements IDeviceRepository {
                 {
                     deviceId: "Device3",
                     properties: {
-                        name: "My engine controller",
-                        type: "engine",
+                        name: "My motor controller",
+                        type: "motor",
                         rotation: 100,
                         isOnline: true
                     }

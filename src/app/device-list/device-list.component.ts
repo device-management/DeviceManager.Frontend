@@ -14,7 +14,7 @@ export class DeviceListComponent implements OnInit {
     deviceBlockWidths: Map<string, number> = new Map();
 
     constructor(private deviceRepository: DeviceRepository, private route: ActivatedRoute) {
-        this.deviceBlockWidths.set(DeviceTypes.Engine, 4);
+        this.deviceBlockWidths.set(DeviceTypes.Motor, 4);
         this.deviceBlockWidths.set(DeviceTypes.Lighting, 4);
         this.deviceBlockWidths.set(DeviceTypes.Temperature, 6);
     }
