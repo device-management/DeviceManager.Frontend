@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core';
 import { MessageBus, ChannelEvent } from '../shared/messaging/message-bus';
-import { DeviceDescriptor, DeviceCommand, DeviceUpdated, Events } from './models';
+import { DeviceDescriptor, DeviceUpdated, Events } from './models';
 
 export abstract class DeviceComponent implements OnInit, OnDestroy {
 
@@ -11,7 +11,7 @@ export abstract class DeviceComponent implements OnInit, OnDestroy {
 
   isMoreInfoActive : boolean = false;
 
-  constructor(private messageBus: MessageBus, private zone : NgZone) {
+  constructor(protected messageBus: MessageBus, protected zone : NgZone) {
     this.handlersMap = new Map();
     this.handlersMap.set(Events.DeviceUpdated, event => this.handleDeviceUpdated(event));
   }
@@ -39,26 +39,6 @@ export abstract class DeviceComponent implements OnInit, OnDestroy {
     Object.keys(event.properties).forEach(key => {
       this.device.properties[key] = event.properties[key];
     });
-  }
-
-  private toggleLight() {
-    let deviceCommand: DeviceCommand = {
-      deviceId: this.device.deviceId,
-      properties: {
-        isActive: !this.device.properties.isActive
-      }
-    }
-
-    let channelEvent: ChannelEvent = {
-      channelName: this.device.deviceId,
-      eventName: Events.DeviceCommand,
-      data: deviceCommand
-    }
-
-    this.messageBus.publish(channelEvent).subscribe(
-      () => console.log("Sucessfully published message into bus."),
-      error => console.log("An error occured during publishing message.")
-    );
   }
 }
 

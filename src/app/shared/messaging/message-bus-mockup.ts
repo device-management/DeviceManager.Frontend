@@ -116,13 +116,30 @@ export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
                 }
             }
         }]);
+        this.messages.set("Device3", [() => {
+            return {
+                channelName: "Device3",
+                eventName: Events.DeviceUpdated,
+                data: {
+                    devideId: "Device3",
+                    properties: {
+                        isOnline: Math.random() >= 0.5,
+                        rotation: (Math.random() * 100).toFixed(0)
+                    }
+                }
+            }
+        }]);
         this.sendEvents(eventCount, 5000);
     }
 
     publish(event: ChannelEvent): Observable<any> {
         let subject = this.channels.get(event.channelName);
         if (subject) {
-            subject.next(event);
+            subject.next({
+                channelName: event.channelName,
+                eventName: Events.DeviceUpdated,
+                data: event.data
+            });
         }
         let publishSub = new Subject();
         publishSub.complete();

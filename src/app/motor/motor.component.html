@@ -11,18 +11,18 @@
                     <div class="col-md-12">
                         <div class="text-center">
                             <label>Current:</label>
-                            <span>{{currentValue}}%</span>
+                            <span>{{device.properties.rotation}}%</span>
                         </div>
                     </div>
                 </div>
                 <div class="row bottom-buffer">
                     <div class="col-md-12">
-                        <input knob [value]="newValue" (changed)="valueChanged($event)">
+                        <input knob [value]="device.properties.rotation" (changed)="valueChanged($event)">
                     </div>
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-success" (click)="applyValue()" [ngClass]="currentValue === newValue ? 'disabled' : 'active'" type="button">Apply</button>
+                        <button class="btn btn-success" (click)="applyValue()" [ngClass]="newValue == device.properties.rotation  ? 'disabled' : 'active'" type="button">Apply</button>
                     </div>
                 </div>
             </div>

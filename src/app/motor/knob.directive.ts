@@ -1,4 +1,4 @@
-import { Directive, OnInit, ElementRef, Output, Input, EventEmitter } from '@angular/core';
+import { Directive, OnInit, ElementRef, Output, Input, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 
 declare var $: any;
@@ -8,7 +8,7 @@ declare var $: any;
     exportAs: 'dm-knob'
 })
 export class KnobDirective implements OnInit {
-    
+
     private knobElement = $(this.element.nativeElement);
 
     @Output()
@@ -33,7 +33,9 @@ export class KnobDirective implements OnInit {
             },
             'fgColor': '#3c8dbc',
             'width': 150,
-            'height': 150
+            'height': 150,
+            'angleOffset':210,
+            'angleArc':300
         });
     }
 }
