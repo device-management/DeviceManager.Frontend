@@ -25,7 +25,9 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <canvas lineChart [points]="points" [xUnit]="measurementUnit"></canvas>
+                        <div class="chart">
+                            <canvas lineChart [points]="points" [xUnit]="measurementUnit" height="500"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>

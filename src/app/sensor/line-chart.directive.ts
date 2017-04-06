@@ -77,13 +77,14 @@ const defaultConfig = function (xUnit: string) {
             scales: {
                 yAxes: [{
                     ticks: {
-                        fixedStepSize: 2
+                        maxTicksLimit: 6
                     }
                 }],
                 xAxes: [{
                     ticks: {
                         autoSkip: true,
-                        autoSkipPadding: 50
+                        autoSkipPadding: 10,
+                        maxRotation: 0
                     },
                     type: 'time',
                     time: {

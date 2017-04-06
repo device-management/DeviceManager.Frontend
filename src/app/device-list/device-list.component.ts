@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { DeviceRepository } from './device-repository';
 import { DeviceDescriptor, DeviceTypes } from '../device/models';
@@ -7,8 +7,9 @@ import { DeviceDescriptor, DeviceTypes } from '../device/models';
     selector: 'dm-devices',
     templateUrl: './device-list.component.html'
 })
-export class DeviceListComponent implements OnInit {
+export class DeviceListComponent implements OnInit, AfterViewInit {
 
+    isViewInit = false;
     grid: Row[] = [];
 
     deviceBlockWidths: Map<string, number> = new Map();
@@ -40,6 +41,10 @@ export class DeviceListComponent implements OnInit {
                 result => this.grid = result,
                 error => console.log("Cannot retrieve devices from repository")
             );
+    }
+
+    ngAfterViewInit() {
+        this.isViewInit = true;
     }
 
     generateGrid(devices: DeviceDescriptor[]): Row[] {

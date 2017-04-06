@@ -6,3 +6,13 @@
 .bottom-buffer { 
     margin-bottom:15px; 
 }
+
+.fade1s {
+    opacity: 0;
+    -webkit-transition: opacity .15s linear;
+    transition: opacity 1s linear;
+}
+
+.fade1s.in {
+    opacity: 1;
+}

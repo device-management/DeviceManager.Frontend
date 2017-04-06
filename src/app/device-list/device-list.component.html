@@ -9,10 +9,12 @@
 <section class="content">
     <div *ngFor="let row of grid" class="row">
         <div *ngFor="let block of row.deviceBlocks" [ngSwitch]="block.device.properties.type" class="col-md-{{block.columnWidth}}">
-            <dm-lighting [device]="block.device" *ngSwitchCase="'lighting'"> </dm-lighting>
-            <dm-motor [device]="block.device" *ngSwitchCase="'motor'"> </dm-motor>
-            <dm-sensor [device]="block.device" [measurementUnit]="'°C'" *ngSwitchCase="'temperature'"> </dm-sensor>
-            <dm-sensor [device]="block.device" [measurementUnit]="'%'" *ngSwitchCase="'humidity'"> </dm-sensor>
+            <div class="fade1s" [class.in]="isViewInit">
+                <dm-lighting [device]="block.device" *ngSwitchCase="'lighting'"> </dm-lighting>
+                <dm-motor [device]="block.device" *ngSwitchCase="'motor'"> </dm-motor>
+                <dm-sensor [device]="block.device" [measurementUnit]="'°C'" *ngSwitchCase="'temperature'"> </dm-sensor>
+                <dm-sensor [device]="block.device" [measurementUnit]="'%'" *ngSwitchCase="'humidity'"> </dm-sensor>
+            </div>
         </div>
     </div>
 </section>
