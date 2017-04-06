@@ -10,7 +10,7 @@
                 <div class="row vertical-align bottom-buffer">
                     <div class="col-xs-6">
                         <div class="pull-left">
-                            <label>Current:</label>
+                            <strong>Current:</strong>
                             <span>{{lastMeasurement?.value.toFixed(1)}}{{measurementUnit}}</span>
                         </div>
                     </div>
@@ -42,10 +42,10 @@
                 </table>
             </div>
         </div>
+        <hr/>
+        <ul class="nav text-center">
+            <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
+            <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
+        </ul>
     </div>
-    <hr/>
-    <ul class="nav text-center">
-        <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
-        <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
-    </ul>
 </div>

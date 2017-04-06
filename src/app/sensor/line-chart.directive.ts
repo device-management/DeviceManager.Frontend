@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Directive, ElementRef, Input, OnInit, OnChanges, OnDestroy, SimpleChanges } from '@angular/core';
 import { ReplaySubject, Subject } from 'rxjs';
 
 declare var Chart: any;
@@ -9,17 +9,17 @@ declare var moment: any;
     selector: 'canvas[lineChart]',
     exportAs: 'dm-line-chart'
 })
-export class LineChartDirective implements OnInit, OnChanges {
+export class LineChartDirective implements OnInit, OnChanges, OnDestroy {
 
     private readonly startingSubject: Subject<any> = new ReplaySubject(1);
 
     private chart;
 
     @Input()
-    xUnit: string;
+    xUnit: string = "";
 
     @Input()
-    points: Array<Point>;
+    points: Array<Point> = [];
 
     public constructor(private element: ElementRef) {
     }
@@ -41,6 +41,10 @@ export class LineChartDirective implements OnInit, OnChanges {
                 this.chart.update();
             }
         );
+    }
+
+    ngOnDestroy(){
+        this.chart.destroy();
     }
 }
 

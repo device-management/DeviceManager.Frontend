@@ -1,9 +1,10 @@
-import { Component, NgZone, Input } from '@angular/core';
+import { Component, NgZone, Input, ChangeDetectorRef } from '@angular/core';
 import { MessageBus } from '../shared/messaging/message-bus';
 import { DeviceComponent } from '../device/device.component';
 import { Events, MeasurementOccured } from '../device/models';
 import { MeasurementsRepository, QueryDescriptor, OrderType } from './measurements-repository';
 import { DateRange } from './date-range.directive';
+import { ReplaySubject, Subject } from 'rxjs';
 import { Point } from './line-chart.directive';
 
 @Component({
@@ -29,7 +30,7 @@ export class SensorComponent extends DeviceComponent {
         let queries: Array<QueryDescriptor> = [];
         queries.push({ deviceId: this.device.deviceId, dateFrom: dateRange.startDate, dateTo: dateRange.endDate });
         queries.push({ deviceId: this.device.deviceId, order: OrderType.Descending, limit: 1 });
-        this.repository.getMeasurements(queries).subscribe(
+        this.repository.getMeasurements(queries).delay(1).subscribe(
             result => {
                 this.evaluatePoints(result[0].points.map<Point>(point => { return { x: point.timestamp, y: point.value } }))
                 this.lastMeasurement = result[1].points[0];
@@ -45,6 +46,6 @@ export class SensorComponent extends DeviceComponent {
         let points = measurement.points.map<Point>(point => { return { x: point.timestamp, y: point.value } });
         points.push(...this.points);
         this.evaluatePoints(points);
-        this.lastMeasurement = measurement.points.sort((p1, p2) => p1.timestamp > p2.timestamp ? -1 : 1 )[0];
+        this.lastMeasurement = measurement.points.sort((p1, p2) => p1.timestamp > p2.timestamp ? -1 : 1)[0];
     }
 }

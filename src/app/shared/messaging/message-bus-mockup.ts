@@ -6,17 +6,17 @@ import { LifecycleSupport } from '../lifecycle/lifecycle';
 
 export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
 
+    private readonly eventCount = 5;
     private readonly channels: Map<string, Subject<ChannelEvent>>;
     private readonly messages: Map<string, EventGeneratorCallback[]>;
 
     constructor() {
         super();
-        let eventCount = 5;
         let startDate = new Date();
         let endDate = new Date();
         endDate.setHours(23, 59, 59, 999);
         let dateDifference = endDate.getTime() - startDate.getTime();
-        let dateOffset = dateDifference / (eventCount * 2);
+        let dateOffset = dateDifference / (this.eventCount * 2);
 
         this.channels = new Map();
         this.messages = new Map();
@@ -129,7 +129,6 @@ export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
                 }
             }
         }]);
-        this.sendEvents(eventCount, 5000);
     }
 
     publish(event: ChannelEvent): Observable<any> {
@@ -153,6 +152,7 @@ export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
         }
         channelSub = new Subject();
         this.channels.set(channel, channelSub);
+        this.sendEvents(channel, this.eventCount, 5000);
         return channelSub;
     }
 
@@ -178,21 +178,21 @@ export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
         return subject;
     }
 
-    private sendEvents(amount: number, delay: number) {
-
-        let counter = 0;
-        let intervalPointer: any = setInterval(() => {
-            counter++
-            this.channels.forEach((subject, channelName) => {
-                let generators = this.messages.get(channelName);
-                if (generators) {
+    private sendEvents(channelName: string, amount: number, delay: number) {
+        let subject = this.channels.get(channelName);
+        if (subject) {
+            let generators = this.messages.get(channelName);
+            if (generators) {
+                let counter = 0;
+                let intervalPointer: any = setInterval(() => {
+                    counter++
                     generators.forEach(generator => subject.next(generator(counter)));
-                }
-            });
-            if (counter === amount) {
-                window.clearInterval(intervalPointer);
+                    if (counter === amount) {
+                        window.clearInterval(intervalPointer);
+                    }
+                }, delay);
             }
-        }, delay);
+        }
     }
 }
 

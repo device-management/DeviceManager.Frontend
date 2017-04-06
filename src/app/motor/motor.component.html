@@ -22,7 +22,7 @@
                 </div>
                 <div class="row">
                     <div class="col-md-12">
-                        <button class="btn btn-success" (click)="applyValue()" [ngClass]="newValue == device.properties.rotation  ? 'disabled' : 'active'" type="button">Apply</button>
+                        <button class="btn btn-success" (click)="applyValue()" [disabled]="newValue == device.properties.rotation" type="button">Apply</button>
                     </div>
                 </div>
             </div>

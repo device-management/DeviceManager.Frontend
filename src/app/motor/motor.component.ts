@@ -1,4 +1,4 @@
-import { Component, NgZone, Input } from '@angular/core';
+import { Component, NgZone, Input, OnInit } from '@angular/core';
 import { MessageBus, ChannelEvent } from '../shared/messaging/message-bus';
 import { DeviceComponent } from '../device/device.component';
 import { DeviceCommand, Events } from '../device/models';
@@ -13,6 +13,11 @@ export class MotorComponent extends DeviceComponent {
 
     constructor(messageBus: MessageBus, zone: NgZone) {
         super(messageBus, zone);
+    }
+
+    ngOnInit(){
+        super.ngOnInit();
+        this.newValue = this.device.properties.rotation;
     }
 
     valueChanged(value: number) {
