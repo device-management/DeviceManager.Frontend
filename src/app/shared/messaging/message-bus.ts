@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Subject, ReplaySubject, Observable } from 'rxjs';
 import { LifecycleSupport } from '../lifecycle/lifecycle';
-import { MessageBusSettings, MESSAGE_BUS_SETTINGS } from './message-bus-settings';
+import { environment } from '../../../environments/environment';
 
 export interface IMessageBus {
     publish(event: ChannelEvent): Observable<any>;
@@ -12,12 +12,14 @@ export interface IMessageBus {
 @Injectable()
 export class MessageBus extends LifecycleSupport implements IMessageBus {
 
+    private readonly backendAddress = environment.backendAddress + "/signalr/hubs";
+    private readonly hubName = "deviceManagerHub";
+
     private readonly startingSubject: Subject<any> = new ReplaySubject(1);
     private readonly hubConnection: any;
     private readonly hubProxy: any;
     private readonly channels = new Map<string, Subject<ChannelEvent>>();
     private readonly signalR: SignalR = new SignalR();
-    private readonly settings: MessageBusSettings = MESSAGE_BUS_SETTINGS;
 
     constructor() {
         super();
@@ -26,11 +28,11 @@ export class MessageBus extends LifecycleSupport implements IMessageBus {
         }
 
         this.hubConnection = this.signalR.entrypoint.hubConnection();
-        this.hubConnection.url = this.settings.url;
+        this.hubConnection.url = this.backendAddress;
         this.hubConnection.logging = true;
         this.hubConnection.error(error => console.log(error));
         this.hubConnection.stateChanged(state => console.log(state));
-        this.hubProxy = this.hubConnection.createHubProxy(this.settings.hubName);
+        this.hubProxy = this.hubConnection.createHubProxy(this.hubName);
         this.hubProxy.on("EventArrived", (channelEvent: ChannelEvent) => {
             let channelSub = this.channels.get(channelEvent.channelName);
             if (channelSub) {

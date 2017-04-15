@@ -1,4 +1,4 @@
-import { IDeviceRepository, FilterDescriptor, FilterResult } from './device-repository';
+import { IDeviceRepository, FilterDescriptor, FilterResult } from '../../app/device-list/device-repository';
 import { Observable, ReplaySubject} from 'rxjs';
 
 export class DeviceRepositoryMockup implements IDeviceRepository {

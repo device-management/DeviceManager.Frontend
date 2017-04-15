@@ -13,10 +13,10 @@
         "favicon.ico"
       ],
       "index": "index.html",
-      "main": "main.ts",
+      "main": "app/main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
-      "tsconfig": "tsconfig.json",
+      "tsconfig": "tsconfig.app.json",
       "prefix": "app",
       "styles": [
         "../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
@@ -41,8 +41,51 @@
         "../node_modules/bootstrap-daterangepicker/daterangepicker.js",
         "../node_modules/chart.js/dist/Chart.min.js"
       ],
+      "environmentSource": "environments/environment.ts",
       "environments": {
-        "source": "environments/environment.ts",
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    },
+    {
+      "root": "src",
+      "name": "mockup",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "mockup/main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "prefix": "mockup",
+      "styles": [
+        "../node_modules/admin-lte/bootstrap/css/bootstrap.min.css",
+        "../node_modules/admin-lte/dist/css/AdminLTE.min.css",
+        "../node_modules/admin-lte/dist/css/skins/skin-blue.min.css",
+        "../node_modules/toastr/build/toastr.min.css",
+        "../node_modules/font-awesome/css/font-awesome.min.css",
+        "../node_modules/icheck/skins/all.css",
+        "../node_modules/spinkit/css/spinners/2-double-bounce.css",
+        "../node_modules/bootstrap-daterangepicker/daterangepicker.css",
+        "./assets/styles.css"
+      ],
+      "scripts": [
+        "../node_modules/admin-lte/plugins/jQuery/jquery-2.2.3.min.js",
+        "../node_modules/signalr/jquery.signalR.min.js",
+        "../node_modules/admin-lte/bootstrap/js/bootstrap.min.js",
+        "../node_modules/moment/min/moment.min.js",
+        "../node_modules/admin-lte/dist/js/app.min.js",
+        "../node_modules/toastr/build/toastr.min.js",
+        "../node_modules/icheck/icheck.min.js",
+        "../node_modules/jquery-knob/dist/jquery.knob.min.js",
+        "../node_modules/bootstrap-daterangepicker/daterangepicker.js",
+        "../node_modules/chart.js/dist/Chart.min.js"
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
         "dev": "environments/environment.ts",
         "prod": "environments/environment.prod.ts"
       }

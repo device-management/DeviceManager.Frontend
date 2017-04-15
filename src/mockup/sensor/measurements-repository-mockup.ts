@@ -1,4 +1,4 @@
-import { IMeasurementsRepository, QueryDescriptor, QueryResult, Point } from './measurements-repository';
+import { IMeasurementsRepository, QueryDescriptor, QueryResult, Point } from '../../app/sensor/measurements-repository';
 import { Observable, ReplaySubject } from 'rxjs';
 
 export class MeasurementsRepositoryMockup implements IMeasurementsRepository {

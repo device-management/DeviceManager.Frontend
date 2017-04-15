@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
-export class MeasurementsRepositorySettings {
-    uri: string;
-}
 
 export class Point {
     value : number;
@@ -35,14 +33,14 @@ export interface IMeasurementsRepository {
 
 @Injectable()
 export class MeasurementsRepository implements IMeasurementsRepository {
-    private readonly measurementsUrl = '/api/measurements/query';
+    private readonly measurementsUrl = environment + '/api/measurements/query';
     private readonly requestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
-    constructor(private settings: MeasurementsRepositorySettings, private http: Http) { }
+    constructor(private http: Http) { }
 
     getMeasurements(queries: Array<QueryDescriptor>): Observable<Array<QueryResult>> {
         
-        return this.http.post(this.settings.uri + this.measurementsUrl, queries, this.requestOptions)
+        return this.http.post(this.measurementsUrl, queries, this.requestOptions)
             .map(this.extractData)
             .catch(this.handleError);
     }

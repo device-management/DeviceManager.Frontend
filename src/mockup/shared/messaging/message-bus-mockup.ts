@@ -1,8 +1,8 @@
 import { Injectable, Inject, Provider } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
-import { Events, Channels } from '../../device/models';
-import { IMessageBus, ChannelEvent } from './message-bus';
-import { LifecycleSupport } from '../lifecycle/lifecycle';
+import { Events, Channels } from '../../../app/device/models';
+import { IMessageBus, ChannelEvent } from '../../../app/shared/messaging/message-bus';
+import { LifecycleSupport } from '../../../app/shared/lifecycle/lifecycle';
 
 export class MessageBusMockup extends LifecycleSupport implements IMessageBus {
 

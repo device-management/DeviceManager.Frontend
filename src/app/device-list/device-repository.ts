@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { Headers, RequestOptions, Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 import { DeviceDescriptor } from '../device/models';
-
-export class DeviceRepositorySettings {
-    uri:string;
-}
+import { environment } from '../../environments/environment';
 
 export class FilterDescriptor {
     filters: Array<FilterItem>;
@@ -36,14 +33,14 @@ export interface IDeviceRepository {
 
 @Injectable()
 export class DeviceRepository implements IDeviceRepository {
-  private readonly devicesUrl = '/api/devices/find';
+  private readonly devicesUrl = environment.backendAddress + '/api/devices/find';
   private readonly requestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
-  constructor(private settings: DeviceRepositorySettings, private http: Http) { }
+  constructor(private http: Http) { }
 
   filter(filter: FilterDescriptor): Observable<FilterResult> {
 
-    return this.http.post(this.settings.uri + this.devicesUrl, filter, this.requestOptions)
+    return this.http.post(this.devicesUrl, filter, this.requestOptions)
       .map(this.extractData)
       .catch(this.handleError);
   }

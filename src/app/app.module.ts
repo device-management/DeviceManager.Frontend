@@ -7,12 +7,9 @@ import { AppComponent } from './app.component';
 import { MenuComponent } from './menu/menu.component';
 import { DeviceListComponent } from './device-list/device-list.component';
 import { MeasurementsRepository } from './sensor/measurements-repository';
-import { MeasurementsRepositoryMockup } from './sensor/measurements-repository-mockup';
 import { LifecycleSupport } from './shared/lifecycle/lifecycle';
 import { MessageBus } from './shared/messaging/message-bus';
-import { MessageBusMockup } from './shared/messaging/message-bus-mockup';
 import { DeviceRepository } from './device-list/device-repository';
-import { DeviceRepositoryMockup } from './device-list/device-repository-mockup';
 import { StatusComponent } from './device/status.component';
 import { ToggleSwitchComponent } from './lighting/toggle-switch.component';
 import { LightingComponent } from './lighting/lighting.component';
@@ -27,18 +24,6 @@ const appRoute = RouterModule.forRoot([
   { path: 'devices/:type', component: DeviceListComponent },
   { path: 'devices', component: DeviceListComponent }
 ]);
-
-export function deviceRepositoryFactory(){
-  return new DeviceRepositoryMockup();
-}
-
-export function measurementsRepositoryFactory(){
-  return new MeasurementsRepositoryMockup();
-}
-
-export function messageBusFactory(){
-  return new MessageBusMockup();
-}
 
 @NgModule({
   declarations: [
@@ -65,10 +50,10 @@ export function messageBusFactory(){
     appRoute
   ],
   providers: [
+    DeviceRepository,
+    MeasurementsRepository,
+    MessageBus,
     { provide: LifecycleSupport, useExisting: MessageBus, multi: true },
-    { provide: DeviceRepository, useFactory: deviceRepositoryFactory },
-    { provide: MeasurementsRepository, useFactory: measurementsRepositoryFactory },
-    { provide: MessageBus, useFactory: messageBusFactory }
   ],
   bootstrap: [AppComponent]
 })
