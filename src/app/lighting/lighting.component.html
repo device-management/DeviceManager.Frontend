@@ -9,7 +9,7 @@
       <div id="{{device.deviceId}}-main" class="tab-pane fade in active text-center">
         <i class="fa fa-lightbulb-o fa-5x"></i>
         <h3>LIGHTNESS</h3>
-        <dm-toggle (toggle)="toggleLight($event)" [status]="device.properties.isActive"> </dm-toggle>
+        <dm-toggle (toggle)="toggleLight()" [status]="device.properties.isActive"> </dm-toggle>
       </div>
       <div id="{{device.deviceId}}-info" class="tab-pane fade in">
         <table class="table table-bordered">

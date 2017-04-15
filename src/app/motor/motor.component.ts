@@ -9,7 +9,7 @@ import { DeviceCommand, Events } from '../device/models';
 })
 export class MotorComponent extends DeviceComponent {
 
-    private newValue: number;
+    newValue: number;
 
     constructor(messageBus: MessageBus, zone: NgZone) {
         super(messageBus, zone);

@@ -14,11 +14,10 @@ import { Point } from './line-chart.directive';
 export class SensorComponent extends DeviceComponent {
 
     @Input()
-    private measurementUnit: string;
-
-    private dateRange: DateRange = new DateRange(() => new Date(), () => new Date(), "Any");
-    private points: Array<Point> = [];
-    private lastMeasurement: any;
+    measurementUnit: string;
+    dateRange: DateRange = new DateRange(() => new Date(), () => new Date(), "Any");
+    points: Array<Point> = [];
+    lastMeasurement: any;
 
     constructor(private repository: MeasurementsRepository, messageBus: MessageBus, zone: NgZone) {
         super(messageBus, zone);

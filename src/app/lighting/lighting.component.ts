@@ -13,7 +13,7 @@ export class LightingComponent extends DeviceComponent {
     super(messageBus, zone);
   }
   
-  private toggleLight() {
+  toggleLight() {
     let deviceCommand: DeviceCommand = {
       deviceId: this.device.deviceId,
       properties: {

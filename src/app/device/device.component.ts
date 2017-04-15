@@ -5,7 +5,7 @@ import { DeviceDescriptor, DeviceUpdated, Events } from './models';
 export abstract class DeviceComponent implements OnInit, OnDestroy {
 
   @Input()
-  protected readonly device: DeviceDescriptor;
+  device: DeviceDescriptor;
 
   protected readonly handlersMap: Map<string, HandleCallback>;
 
