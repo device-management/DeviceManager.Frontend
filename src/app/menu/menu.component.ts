@@ -5,8 +5,5 @@ import { Component } from '@angular/core';
     templateUrl: 'menu.template.html'
 })
 export class MenuComponent {
-    deviceTypes: string[];
-    constructor(){
-        this.deviceTypes = ["temperature", "brightness", "engine"];
-    }
+    deviceTypes: string[] = ["temperature", "lighting", "motor", "humidity"];
 }

@@ -21,17 +21,9 @@
                             <i class="fa fa-circle-o"></i>
                             All
                         </a>
-                        <a [routerLink]="['/devices', 'temperature']">
+                        <a *ngFor="let type of deviceTypes" [routerLink]="['/devices', type]">
                             <i class="fa fa-circle-o"></i>
-                            Temperature
-                        </a>
-                        <a [routerLink]="['/devices', 'brightness']">
-                            <i class="fa fa-circle-o"></i>
-                            Brightness
-                        </a>
-                        <a [routerLink]="['/devices', 'engine']">
-                            <i class="fa fa-circle-o"></i>
-                            Engine
+                            {{ type | capitalize }}
                         </a>
                     </li>
                 </ul>

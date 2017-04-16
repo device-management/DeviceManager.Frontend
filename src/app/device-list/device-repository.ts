@@ -40,14 +40,14 @@ export class DeviceRepository implements IDeviceRepository {
 
   filter(filter: FilterDescriptor): Observable<FilterResult> {
 
-    return this.http.post(this.devicesUrl, filter, this.requestOptions)
+    return this.http.post(this.devicesUrl, JSON.stringify(filter), this.requestOptions)
       .map(this.extractData)
       .catch(this.handleError);
   }
 
   private extractData(res: Response) {
     let body = res.json();
-    return body.data || {};
+    return body || {};
   }
 
   private handleError(error: Response | any) {

@@ -27,8 +27,8 @@ export class SensorComponent extends DeviceComponent {
     dateRangeSelected(dateRange: DateRange) {
         this.dateRange = dateRange;
         let queries: Array<QueryDescriptor> = [];
-        queries.push({ deviceId: this.device.deviceId, dateFrom: dateRange.startDate, dateTo: dateRange.endDate });
-        queries.push({ deviceId: this.device.deviceId, order: OrderType.Descending, limit: 1 });
+        queries.push({ name: this.device.deviceId, dateFrom: dateRange.startDate, dateTo: dateRange.endDate });
+        queries.push({ name: this.device.deviceId, order: OrderType.Descending, limit: 1 });
         this.repository.getMeasurements(queries).delay(1).subscribe(
             result => {
                 this.evaluatePoints(result[0].points.map<Point>(point => { return { x: point.timestamp, y: point.value } }))
@@ -42,7 +42,7 @@ export class SensorComponent extends DeviceComponent {
     }
 
     private handleMeasurment(measurement: MeasurementOccured) {
-        let points = measurement.points.map<Point>(point => { return { x: point.timestamp, y: point.value } });
+        let points = measurement.points.map<Point>(point => { return { x: new Date(point.timestamp), y: point.value } });
         points.push(...this.points);
         this.evaluatePoints(points);
         this.lastMeasurement = measurement.points.sort((p1, p2) => p1.timestamp > p2.timestamp ? -1 : 1)[0];

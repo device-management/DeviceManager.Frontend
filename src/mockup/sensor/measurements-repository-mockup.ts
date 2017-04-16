@@ -23,7 +23,7 @@ export class MeasurementsRepositoryMockup implements IMeasurementsRepository {
         let dates: Array<Date> = this.generateDates(amount, query.dateFrom, query.dateTo);
         let points = dates.map<Point>(date => { return { timestamp: date, value: this.generateRandomNumber() } })
         return {
-            name: query.deviceId,
+            name: query.name,
             points: points
         }
     }

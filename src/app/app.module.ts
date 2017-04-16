@@ -19,6 +19,7 @@ import { SensorComponent } from './sensor/sensor.component';
 import { LineChartDirective } from './sensor/line-chart.directive';
 import { MotorComponent } from './motor/motor.component';
 import { KnobDirective } from './motor/knob.directive';
+import { CapitalizePipe } from './menu/capitalize.pipe'
 
 const appRoute = RouterModule.forRoot([
   { path: 'devices/:type', component: DeviceListComponent },
@@ -38,7 +39,8 @@ const appRoute = RouterModule.forRoot([
     SensorComponent,
     LineChartDirective,
     KnobDirective,
-    MotorComponent
+    MotorComponent,
+    CapitalizePipe
   ],
   exports: [
 

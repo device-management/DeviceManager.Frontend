@@ -10,7 +10,7 @@ export class Point {
 }
 
 export class QueryDescriptor {
-    deviceId : string;
+    name : string;
     dateFrom? : Date;
     dateTo? : Date;
     order?: OrderType;
@@ -33,7 +33,7 @@ export interface IMeasurementsRepository {
 
 @Injectable()
 export class MeasurementsRepository implements IMeasurementsRepository {
-    private readonly measurementsUrl = environment + '/api/measurements/query';
+    private readonly measurementsUrl = environment.backendAddress + '/api/measurements/query';
     private readonly requestOptions = new RequestOptions({ headers: new Headers({ 'Content-Type': 'application/json' }) });
 
     constructor(private http: Http) { }
@@ -45,9 +45,15 @@ export class MeasurementsRepository implements IMeasurementsRepository {
             .catch(this.handleError);
     }
 
-    private extractData(res: Response) {
+    private extractData(res: Response) : Array<QueryResult> {
         let body = res.json();
-        return body.data || {};
+        let data : Array<QueryResult> = body || {};
+        data.forEach((entry) => {
+            entry.points.forEach((point) => {
+                point.timestamp = new Date(point.timestamp);
+            });
+        });
+        return data;
     }
 
     private handleError(error: Response | any) {
