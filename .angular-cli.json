@@ -6,8 +6,9 @@
   },
   "apps": [
     {
+      "name": "prod",
       "root": "src",
-      "outDir": "dist",
+      "outDir": "dist/prod",
       "assets": [
         "assets",
         "favicon.ico"
@@ -50,7 +51,7 @@
     {
       "root": "src",
       "name": "mockup",
-      "outDir": "dist",
+      "outDir": "dist/mockup",
       "assets": [
         "assets",
         "favicon.ico"
