@@ -27,12 +27,10 @@
     "bootstrap-daterangepicker": "^2.1.25",
     "chart.js": "^2.5.0",
     "font-awesome": "^4.7.0",
-    "icheck": "^1.0.2",
     "jquery-knob": "^1.2.11",
     "moment": "^2.17.1",
     "signalr": "^2.2.1",
-    "spinkit": "^1.2.5",
-    "toastr": "^2.1.2"
+    "spinkit": "^1.2.5"
   },
   "devDependencies": {
     "@angular/cli": "1.0.0",
