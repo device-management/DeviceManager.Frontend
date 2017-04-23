@@ -1,7 +1,7 @@
 FROM scratch
 
-MAINTAINER thom.nocon@gmail.com
+LABEL maintainer "thom.nocon@gmail.com"
 
-COPY dist/prod /
+COPY dist/prod dist/dm-frontend
 
-VOLUME /
+VOLUME dist/dm-frontend
