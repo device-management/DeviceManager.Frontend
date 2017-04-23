@@ -1,4 +1,4 @@
-FROM scratch
+FROM tianon/true
 
 LABEL maintainer "thom.nocon@gmail.com"
 
