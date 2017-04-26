@@ -12,7 +12,7 @@ export interface IMessageBus {
 @Injectable()
 export class MessageBus extends LifecycleSupport implements IMessageBus {
 
-    private readonly backendAddress = environment.backendAddress + "/signalr/hubs";
+    private readonly backendAddress = (environment.production ? window.location.origin : environment.backendAddress) + "/signalr/hubs";
     private readonly hubName = "deviceManagerHub";
 
     private readonly startingSubject: Subject<any> = new ReplaySubject(1);
