@@ -1,19 +1,22 @@
-import { Component, NgZone } from '@angular/core';
+import { Component, NgZone, Input } from '@angular/core';
 import { MessageBus, ChannelEvent } from '../shared/messaging/message-bus';
 import { DeviceComponent } from '../device/device.component';
 import { DeviceCommand, Events } from '../device/models'
 
 @Component({
-  selector: 'dm-lighting',
-  templateUrl: './lighting.component.html'
+  selector: 'dm-power-switch',
+  templateUrl: './power-switch.component.html'
 })
-export class LightingComponent extends DeviceComponent {
+export class PowerSwitchComponent extends DeviceComponent {
 
-  constructor(messageBus: MessageBus, zone : NgZone) {
+  @Input()
+  iconName: string = "fa-power-off";
+
+  constructor(messageBus: MessageBus, zone: NgZone) {
     super(messageBus, zone);
   }
-  
-  toggleLight() {
+
+  toggleSwitch() {
     let deviceCommand: DeviceCommand = {
       deviceId: this.device.deviceId,
       properties: {

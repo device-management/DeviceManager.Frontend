@@ -11,8 +11,8 @@ import { LifecycleSupport } from './shared/lifecycle/lifecycle';
 import { MessageBus } from './shared/messaging/message-bus';
 import { DeviceRepository } from './device-list/device-repository';
 import { StatusComponent } from './device/status.component';
-import { ToggleSwitchComponent } from './lighting/toggle-switch.component';
-import { LightingComponent } from './lighting/lighting.component';
+import { ToggleSwitchComponent } from './power-switch/toggle-switch.component';
+import { PowerSwitchComponent } from './power-switch/power-switch.component';
 import { DevicePropertiesPipe } from './device/device-properties.pipe';
 import { DateRangeDirective } from './sensor/date-range.directive';
 import { SensorComponent } from './sensor/sensor.component';
@@ -31,7 +31,7 @@ const appRoute = RouterModule.forRoot([
     AppComponent,
     MenuComponent,
     DeviceListComponent,
-    LightingComponent,
+    PowerSwitchComponent,
     DevicePropertiesPipe,
     StatusComponent,
     ToggleSwitchComponent,

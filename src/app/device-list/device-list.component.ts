@@ -16,6 +16,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
 
     constructor(private deviceRepository: DeviceRepository, private route: ActivatedRoute) {
         this.deviceBlockWidths.set(DeviceTypes.Motor, 4);
+        this.deviceBlockWidths.set(DeviceTypes.Fan, 4);
         this.deviceBlockWidths.set(DeviceTypes.Lighting, 4);
         this.deviceBlockWidths.set(DeviceTypes.Temperature, 6);
     }

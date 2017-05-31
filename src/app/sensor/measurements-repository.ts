@@ -50,7 +50,7 @@ export class MeasurementsRepository implements IMeasurementsRepository {
         let data : Array<QueryResult> = body || {};
         data.forEach((entry) => {
             entry.points.forEach((point) => {
-                point.timestamp = new Date(point.timestamp);
+                point.timestamp = new Date(point.timestamp + 'Z');
             });
         });
         return data;

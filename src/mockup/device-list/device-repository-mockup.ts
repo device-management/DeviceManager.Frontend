@@ -44,6 +44,15 @@ export class DeviceRepositoryMockup implements IDeviceRepository {
                         isOnline: true
                     }
                 },
+                {
+                    deviceId: "Device5",
+                    properties: {
+                        name: "My fan controller",
+                        type: "fan",
+                        isActive: true,
+                        isOnline: true                    
+                    }
+                }
             ],
             total: 8
         }

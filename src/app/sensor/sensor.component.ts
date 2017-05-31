@@ -15,6 +15,10 @@ export class SensorComponent extends DeviceComponent {
 
     @Input()
     measurementUnit: string;
+
+    @Input()
+    iconName: string = "fa-rss";
+
     dateRange: DateRange = new DateRange(() => new Date(), () => new Date(), "Any");
     points: Array<Point> = [];
     lastMeasurement: any;
@@ -31,7 +35,7 @@ export class SensorComponent extends DeviceComponent {
         queries.push({ name: this.device.deviceId, order: OrderType.Descending, limit: 1 });
         this.repository.getMeasurements(queries).delay(1).subscribe(
             result => {
-                this.evaluatePoints(result[0].points.map<Point>(point => { return { x: point.timestamp, y: point.value } }))
+                this.evaluatePoints(result[0].points.map<Point>(point => { return { x: new Date(point.timestamp), y: point.value } }))
                 this.lastMeasurement = result[1].points[0];
             },
             error => console.log("Cannot get measurements from repository."));

@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { LightingComponent } from './lighting.component';
+import { PowerSwitchComponent } from './power-switch.component';
 
-describe('LightingComponent', () => {
-  let component: LightingComponent;
-  let fixture: ComponentFixture<LightingComponent>;
+describe('PowerSwitchComponent', () => {
+  let component: PowerSwitchComponent;
+  let fixture: ComponentFixture<PowerSwitchComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LightingComponent ]
+      declarations: [ PowerSwitchComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LightingComponent);
+    fixture = TestBed.createComponent(PowerSwitchComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

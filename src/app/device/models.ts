@@ -7,6 +7,7 @@ export class DeviceDescriptor {
 export class DeviceTypes {
     public static readonly Temperature : string = "temperature";
     public static readonly Lighting : string = "lighting";
+    public static readonly Fan : string = "fan";
     public static readonly Motor : string = "motor";
 }
 
