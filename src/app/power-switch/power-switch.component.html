@@ -2,7 +2,10 @@
   <div class="box-header with-border">
     <i class="fa" [ngClass]="iconName"></i>
     <h3 class="box-title">{{device.properties.name}}</h3>
-    <dm-status [size]="10" [status]="device.properties.isOnline" class="pull-right" > </dm-status>
+    <div class="pull-right">
+      {{device.properties.isOnline ? '[Online]' : '[Offline]'}}
+      <dm-status [size]="10" [status]="device.properties.isOnline"> </dm-status>
+    </div>
   </div>
   <div class="box-body">
     <div class="tab-content">
@@ -25,7 +28,7 @@
       </div>
     </div>
     <hr/>
-    <ul  class="nav text-center">
+    <ul class="nav text-center">
       <li *ngIf="isMoreInfoActive"><a (click)="isMoreInfoActive=false" data-toggle="tab" href="#{{device.deviceId}}-main">BACK</a></li>
       <li *ngIf="!isMoreInfoActive"><a (click)="isMoreInfoActive=true" data-toggle="tab" href="#{{device.deviceId}}-info">MORE INFO</a></li>
     </ul>

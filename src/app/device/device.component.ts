@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, NgZone, Input } from '@angular/core';
 import { MessageBus, ChannelEvent } from '../shared/messaging/message-bus';
-import { DeviceDescriptor, DeviceUpdated, Events } from './models';
+import { DeviceDescriptor, DeviceUpdated, DeviceRegistered, Events } from './models';
 
 export abstract class DeviceComponent implements OnInit, OnDestroy {
 
@@ -9,11 +9,12 @@ export abstract class DeviceComponent implements OnInit, OnDestroy {
 
   protected readonly handlersMap: Map<string, HandleCallback>;
 
-  isMoreInfoActive : boolean = false;
+  isMoreInfoActive: boolean = false;
 
-  constructor(protected messageBus: MessageBus, protected zone : NgZone) {
+  constructor(protected messageBus: MessageBus, protected zone: NgZone) {
     this.handlersMap = new Map();
     this.handlersMap.set(Events.DeviceUpdated, event => this.handleDeviceUpdated(event));
+    this.handlersMap.set(Events.DeviceRegistered, event => this.handleDeviceRegistered(event));
   }
 
   ngOnInit() {
@@ -36,6 +37,12 @@ export abstract class DeviceComponent implements OnInit, OnDestroy {
   }
 
   private handleDeviceUpdated(event: DeviceUpdated) {
+    Object.keys(event.properties).forEach(key => {
+      this.device.properties[key] = event.properties[key];
+    });
+  }
+
+  private handleDeviceRegistered(event: DeviceRegistered) {
     Object.keys(event.properties).forEach(key => {
       this.device.properties[key] = event.properties[key];
     });
